@@ -1,3 +1,6 @@
+# Pacman for Ubuntu
+This is an tool to use same commands pacman style in Ubuntu | Kubuntu | Another Linux with APT.
+#
 Commands
 --------
 
