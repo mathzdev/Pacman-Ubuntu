@@ -125,6 +125,8 @@ while [[ "$#" -gt 0 ]]
       echo "pacman -Qs <query> 	Search installed packages for keywords"
       echo "pacman -Qdt 		List unneeded packages"
       echo "pacman -Rns		Uninstall unneeded packages"
+      echo ""
+      echo "For more info https://github.com/fenxlol/Pacman-Ubuntu"
       exit;
       ;;
 
