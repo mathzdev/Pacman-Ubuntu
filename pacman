@@ -1,0 +1,138 @@
+#!/bin/bash
+
+##############################
+#      PACMAN FOR UBUNTU     #
+#                            #
+# @fenxlol                   #
+# put this on /usr/bin       #
+# and get 777 permissions on #
+# /usr/bin/pacman            #
+# ENJOY !!                   #
+##############################
+
+while [[ "$#" -gt 0 ]]
+  do
+    case "$1" in
+
+      # Search
+      -Ss)
+      apt search "$2";
+      exit;
+      ;;
+
+      # Install only
+      -S)
+      if [ "$EUID" -ne 0 ]
+        then echo "These commands require root privileges (sudo)."
+        exit
+      fi
+      apt install "$2";
+      exit;
+      ;;
+
+      # Install (and update package list) | Upgrade everything case $2 is null or empty
+      -Syu)
+      if [ "$EUID" -ne 0 ]
+        then echo "These commands require root privileges (sudo)."
+        exit
+      fi
+      STRLENGTH=$(echo -n $2 | wc -m);
+      apt update;
+
+      if [ "$STRLENGTH" -ne 0 ]
+        then apt install "$2";
+        exit
+      fi
+
+      apt upgrade;
+      exit;
+      ;;
+
+      # Uninstall
+      -Rsc)
+      if [ "$EUID" -ne 0 ]
+        then echo "These commands require root privileges (sudo)."
+        exit
+      fi
+      apt remove "$2";
+      exit;
+      ;;
+
+      # List explictly-installed packages
+      -Qe)
+      apt list --installed;
+      exit;
+      ;;
+
+      # What files does this package have?
+      -Ql)
+      dpkg-query -L "$2";
+      exit;
+      ;;
+
+      # List information on package
+      -Qi|-Qii)
+      apt show "$2" -a;
+      exit;
+      ;;
+
+      # Who owns this file?
+      -Qo)
+      dpkg -S "$2";
+      exit;
+      ;;
+
+      # Search installed packages for keywords
+      -Qs)
+      apt list -a --installed "$2";
+      exit;
+      ;;
+
+      # List unneeded packages
+      -Qdt)
+      if [ "$EUID" -ne 0 ]
+        then echo "These commands require root privileges (sudo)."
+        exit
+      fi
+      apt autoremove;
+      exit;
+      ;;
+
+      # Uninstall unneeded packages
+      -Rns)
+      if [ "$EUID" -ne 0 ]
+        then echo "These commands require root privileges (sudo)."
+        exit
+      fi
+      apt autoremove -y;
+      exit;
+      ;;
+
+      # Help
+      -help|help)
+      echo "This is an tool to use same commands pacman style in Ubuntu | Kubuntu | Another Linux with APT.";
+      echo "";
+      echo "Command List:";
+      echo "pacman -Syu <pkg> 	Install (and update package list)"
+      echo "pacman -S <pkg> 	Install only"
+      echo "pacman -Rsc <pkg> 	Uninstall"
+      echo "pacman -Ss <keywords> 	Search"
+      echo "pacman -Syu 		Upgrade everything"
+      echo "pacman -Qe 		List explictly-installed packages"
+      echo "pacman -Ql <pkg> 	What files does this package have?"
+      echo "pacman -Qii <pkg> 	List information on package"
+      echo "pacman -Qo <file> 	Who owns this file?"
+      echo "pacman -Qs <query> 	Search installed packages for keywords"
+      echo "pacman -Qdt 		List unneeded packages"
+      echo "pacman -Rns		Uninstall unneeded packages"
+      exit;
+      ;;
+
+      # Anyone
+      *)
+      echo "Option not found, try pacman help or pacman -help for more info."
+      exit
+      ;;
+    esac
+  shift
+done
