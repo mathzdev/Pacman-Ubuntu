@@ -1,5 +1,7 @@
 # Pacman for Ubuntu
 This is an tool to use same commands pacman style in Ubuntu | Kubuntu | Another Linux with APT.
+
+Installing: put this on /usr/bin and get 777 permissions on /usr/bin/pacman.
 #
 Commands
 --------
